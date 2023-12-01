@@ -1,7 +1,6 @@
 %% Plot motion parameters
 % Both as the normal six motion parameters we get from SPM
-% and as framewise displacement values (you need the script
-% "AN_bramila_framewiseDisplacement.m" for that)
+% and as framewise displacement values (you need the script "AN_bramila_framewiseDisplacement.m" for that)
 % Alexandra Nohl, adapted July 2023 (from Amelie Haugg 2021)
 
 
@@ -10,9 +9,8 @@ clear all
 
 %% Define paths and variables
 
-dataPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_old/epis/';
-%dataPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_rev/epis/';
-batchPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/Scripts';
+dataPath = '/path/to/your/preprocessing/files/epis/'; % the epis folder contains the functional data
+batchPath = '/path/to/your/quality/control/scripts';
 
 
 threshold = 0.9; % 0.3 is the deafult for task (0.2 for rest)
@@ -20,10 +18,8 @@ threshold = 0.9; % 0.3 is the deafult for task (0.2 for rest)
 run = 1;
 
 
-Participants = dir([dataPath,'BIO*']);% list of your participants. Same name as their folders!
-Participants = [Participants; dir([dataPath,'LOC*'])]; % to add both LOC and BIO subject folders
+Participants = dir([dataPath,'sub-*']);% list of your participants (sub-...). Same name as their folders!
 Participants = {Participants.name}
-%Participants = {'LOC03', 'LOC04', 'LOC05', 'LOC06','LOC07', 'LOC08', 'LOC09', 'LOC10', 'LOC11', 'LOC12'}; %use this line if you have a selection of subjects
 
 
 number_above_threshold = zeros(1, length(Participants));
@@ -89,40 +85,8 @@ for n = 1 : length(Participants)
     mean_fwd_value(n) = mean(subject_fwd)
 
 end
+
     
-
-
-   
-%% Plot results
-    
-% % plot motion parameters from SPM
-% figure; hold on;
-% for i = 1:length(Participants)
-%     % first two numbers of subplot indicate number of rows and columns
-%     % adapt this according to your participant number
-%     subplot(1,1,i); hold on;
-%     plot(rp_values{i});
-%     % add correction needed
-%     %stem(correction_needed{i},'Marker','none','LineWidth',0.1);
-%     ylim([-2 2]);
-% end    
-
-plot framewise displacement
-figure (215)
-for i = 1:length(Participants)
-    % first two numbers of subplot indicate number of rows and columns
-    % adapt this according to your participant number
-    subplot(3,2,i); %for localizer old/rev with 6 participants
-    plot(fwd{i});
-    % change limits of y-axis if you see a lot of movement
-    ylim([0 10]);
-    xlim([0 180])
-    line([0,335],[threshold,threshold],'Color','r');
-    line([0,335],[-threshold,-threshold],'Color','r');
-end    
-
-
-
 %% Save results
 
 save('output_workspace_motion_rev')
