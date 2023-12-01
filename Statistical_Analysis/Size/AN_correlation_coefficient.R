@@ -22,7 +22,7 @@ table %>% identify_outliers(value_of_interest_2)
 
 ## exclude outliers (if there are any)
 # exclude outliers first
-nooutliers <- table[!(row.names(table) %in% c("1","2","3")),] # enter the row number of all outliers (here 1, 2, and 3)
+nooutliers <- table[!(row.names(table) %in% c("1","2","3")),] # enter the row number of all outliers (of both value 1 and value 2, here 1, 2, and 3)
 
 
 ## check if data is distributed normally
