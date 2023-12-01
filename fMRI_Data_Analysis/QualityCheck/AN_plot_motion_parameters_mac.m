@@ -13,7 +13,7 @@ dataPath = '/path/to/your/preprocessing/files/epis/'; % the epis folder contains
 batchPath = '/path/to/your/quality/control/scripts';
 
 
-threshold = 0.9; % 0.3 is the deafult for task (0.2 for rest)
+threshold = 0.9; % choose threshold
 
 run = 1;
 
