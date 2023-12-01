@@ -15,7 +15,7 @@
 % Clear up  workspace, load spm config file and add  path to our scripts
 clear all; close all; 
 spm_jobman('initcfg');
-addpath ('/path/to/your/scripts') 
+addpath ('/path/to/your/preprocessing/scripts') 
 
 % Inputs setup
 %-----------------------------------------------------------------
