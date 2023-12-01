@@ -24,21 +24,21 @@
 
 function [FileNames, maxC, MNIpeak] = getMaxBetaTxt(CON_dir,Mask_file, fileWords)
 
-Mask_file = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/ROI/Masks/ROI_Masks_right/13_FG_temporal_occipital_box50x14x50_50,-100,-50_box50x40x50_50,0,-50_box100x100x24_40,-40,20_WFU_pickatlas.nii';
-fileWords = '13_FFA_right_FG_temporal_occipital_box50x14x50_50,-100,-50_box50x40x50_50,0,-50_box100x100x24_40,-40,20_'
+Mask_file = '/path/to/your/mask.nii';
+file = 'filename' %enter a name for the output file
 
 
+%%% there are 2 face-processing contrasts: FacesVsBaseline and FacesVsWords
+%% FacesVsBaseline
 
-%% FacesVsBaseline Old
-
-subjectsDirOld = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_old/';
-subjectsOld = dir([subjectsDirOld,'BIO*']);% list of your participants. Same name as their folders!
-subjectsOld = [subjectsOld; dir([subjectsDirOld,'LOC*'])];
-subjectsOld = {subjectsOld.name};
+subjectsDir = '/path/to/your/first/level/folder/glm/';
+subjects = dir([subjectsDir,'sub-*']);% list of your participants (sub-...). Same name as their folders!
+subjects = {subjects.name};
 
 
 contrastBaseline = 'FacesVsBaseline'
-roi_dir = ['/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/ROI/Activity/FFA_right/', contrastBaseline];
+roi_dir = ['/Upath/to/folder/whereoutput/should/be/saved/', contrastBaseline];
+
 
 % load mask
 ROI = spm_vol(Mask_file);
@@ -47,22 +47,22 @@ ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
 
 
 % create txt file
-fid = fopen([roi_dir,'/', fileWords , contrastBaseline '_old.txt'],'a'); %creates txt file, if it doesn't exist yet
+fid = fopen([roi_dir,'/', fileWords , contrastBaseline '.txt'],'a'); %creates txt file, if it doesn't exist yet
 
 % fprintf(fid, 'Contrast: \t');
 % fprintf(fid, '%s\n', contrastBaseline);
 fprintf(fid, 'Subjects \t max_beta \t x \t y \t z\n');
 
 
-for i = 1:length(subjectsOld)
-    currSubjectOld = subjectsOld{i};
-    CON_dirOld = fullfile(subjectsDirOld, currSubjectOld); %output path
+for i = 1:length(subjects)
+    currSubject = subjects{i};
+    CON_dir = fullfile(subjectsDir, currSubject); % output path
 
-    display(currSubjectOld);
+    display(currSubject);
 
     % determine con-files
-    cd(CON_dirOld)
-    con_files_Baseline = ls('*con_0005.nii'); %FacesVsBaseline
+    cd(CON_dir)
+    con_files_Baseline = ls('*con_0005.nii'); % FacesVsBaseline
 
 
     % extract betas and find max
@@ -70,20 +70,20 @@ for i = 1:length(subjectsOld)
     for c = 1:size(con_files_Baseline,1)
         display(['extracting data from file ' con_files_Baseline(c,:) '...']);
 
-        con_tmp_old = spm_vol(con_files_Baseline(c,:));
-        con_tmp_old_mat = con_tmp_old.mat;
+        con_tmp = spm_vol(con_files_Baseline(c,:));
+        con_tmp_mat = con_tmp.mat;
         for vx = 1:length(ROI_xyz)
-            xyz_tmp_old = con_tmp_old_mat\[ROI_xyz(:,vx);1];
-            betas(c,vx) = spm_sample_vol(con_tmp_old,xyz_tmp_old(1),xyz_tmp_old(2),xyz_tmp_old(3),0);
+            xyz_tmp = con_tmp_mat\[ROI_xyz(:,vx);1];
+            betas(c,vx) = spm_sample_vol(con_tmp,xyz_tmp_old(1),xyz_tmp(2),xyz_tmp(3),0);
         end
-        [maxC(c),tmp_old_ind] = max(betas(c,:));
-        MNIpeak(c,:) = ROI_xyz(:,tmp_old_ind);
+        [maxC(c),tmp_ind] = max(betas(c,:));
+        MNIpeak(c,:) = ROI_xyz(:,tmp_ind);
         FileNames{c} = con_files_Baseline(c,:);
 
 
         %%%%save in txt file%%%%
         %fprintf(fid,'con files: \t max_beta \t MNI_peak \n');
-        fprintf(fid,'%s\t',currSubjectOld); %prints subject name
+        fprintf(fid,'%s\t',currSubject); %prints subject name
         fprintf(fid,'%d\t',maxC(c)); %prints max beta values
         fprintf(fid,'%d\t',MNIpeak(c,:)); %prints max peak values
         %fprintf(fid,'\n'); %next line (enter)
@@ -99,85 +99,16 @@ fclose(fid); %close txt file
 cd(roi_dir);
 
 
-display('FacesVsBaseline Old done');
-
-
-%% FacesVsBaseline Rev
-
-subjectsDirRev = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_rev/';
-subjectsRev = dir([subjectsDirRev,'BIO*']);% list of your participants. Same name as their folders!
-subjectsRev = [subjectsRev; dir([subjectsDirRev,'LOC*'])];
-subjectsRev = {subjectsRev.name};
-
-
-% load mask
-ROI = spm_vol(Mask_file);
-[ROI_dat,XYZ] = spm_read_vols(ROI,0);
-ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
-
-
-% create txt file
-fid = fopen([roi_dir,'/',fileWords , contrastBaseline '_rev.txt'],'a'); %creates txt file, if it doesn't exist yet
-
-% fprintf(fid, 'Contrast: \t');
-% fprintf(fid, '%s\n', contrastBaseline);
-fprintf(fid, 'Subjects \t max_beta \t x \t y \t z\n');
-
-
-for i = 1:length(subjectsRev)
-    currSubjectRev = subjectsRev{i};
-    CON_dirRev = fullfile(subjectsDirRev, currSubjectRev); %output path
-
-    display(currSubjectRev);
-
-    % determine con-files
-    cd(CON_dirRev)
-
-
-    % extract betas and find max
-    betas = [];
-    for c = 1:size(con_files_Baseline,1)
-        display(['extracting data from file ' con_files_Baseline(c,:) '...']);
-
-        con_tmp_rev = spm_vol(con_files_Baseline(c,:));
-        con_tmp_rev_mat = con_tmp_rev.mat;
-        for vx = 1:length(ROI_xyz)
-            xyz_tmp_rev = con_tmp_rev_mat\[ROI_xyz(:,vx);1];
-            betas(c,vx) = spm_sample_vol(con_tmp_rev,xyz_tmp_rev(1),xyz_tmp_rev(2),xyz_tmp_rev(3),0);
-        end
-        [maxC(c),tmp_rev_ind] = max(betas(c,:));
-        MNIpeak(c,:) = ROI_xyz(:,tmp_rev_ind);
-        FileNames{c} = con_files_Baseline(c,:);
-
-
-        %%%%save in txt file%%%%
-        %fprintf(fid,'con files: \t max_beta \t MNI_peak \n');
-        fprintf(fid,'%s\t',currSubjectRev); %prints subject name
-        fprintf(fid,'%d\t',maxC(c)); %prints max beta values
-        fprintf(fid,'%d\t',MNIpeak(c,:)); %prints max peak values
-        %fprintf(fid,'\n'); %next line (enter)
-        %%%%saved in txt file%%%%%%
-
-    end
-
-    fprintf(fid,'\n'); %next line (enter)
-
-end
-
-fclose(fid); %close txt file
-cd(roi_dir);
-
-
-display('FacesVsBaseline Rev done');
+display('FacesVsBaseline done');
 
 
 
-%% FacesVsWords Old
+%% FacesVsWords
 
-subjectsDirOld = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_old/';
-subjectsOld = dir([subjectsDirOld,'BIO*']);% list of your participants. Same name as their folders!
-subjectsOld = [subjectsOld; dir([subjectsDirOld,'LOC*'])];
-subjectsOld = {subjectsOld.name};
+subjectsDir = '/path/to/your/first/level/folder/glm/';
+subjects = dir([subjectsDir,'sub-*']);% list of your participants (sub-...). Same name as their folders!
+subjects = [subjects; dir([subjectsDir,'LOC*'])];
+subjects = {subjects.name};
 
 
 contrastWords = 'FacesVsWords'
@@ -190,21 +121,21 @@ ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
 
 
 % create txt file
-fid = fopen([roi_dir,'/', fileWords , contrastWords '_old.txt'],'a'); %creates txt file, if it doesn't exist yet
+fid = fopen([roi_dir,'/', fileWords , contrastWords '.txt'],'a'); %creates txt file, if it doesn't exist yet
 
 % fprintf(fid, 'Contrast: \t');
 % fprintf(fid, '%s\n', contrastBaseline);
 fprintf(fid, 'Subjects \t max_beta \t x \t y \t z\n');
 
-for i = 1:length(subjectsOld)
-    currSubjectOld = subjectsOld{i};
-    CON_dirOld = fullfile(subjectsDirOld, currSubjectOld); %output path
+for i = 1:length(subjects)
+    currSubject = subjects{i};
+    CON_dirOld = fullfile(subjectsDir, currSubject); % output path
     
-    display(currSubjectOld);
+    display(currSubject);
 
     % determine con-files
-    cd(CON_dirOld)
-    con_files_Words = ls('*con_0003.nii'); %FacesVsWords
+    cd(CON_dir)
+    con_files_Words = ls('*con_0003.nii'); % FacesVsWords
     
 
     % extract betas and find max
@@ -212,20 +143,20 @@ for i = 1:length(subjectsOld)
     for c = 1:size(con_files_Words,1)
         display(['extracting data from file ' con_files_Words(c,:) '...']);
     
-        con_tmp_old = spm_vol(con_files_Words(c,:));
-        con_tmp_old_mat = con_tmp_old.mat;
+        con_tmp = spm_vol(con_files_Words(c,:));
+        con_tmp_mat = con_tmp.mat;
         for vx = 1:length(ROI_xyz)
-            xyz_tmp_old = con_tmp_old_mat\[ROI_xyz(:,vx);1];
-            betas(c,vx) = spm_sample_vol(con_tmp_old,xyz_tmp_old(1),xyz_tmp_old(2),xyz_tmp_old(3),0);
+            xyz_tmp_old = con_tmp_mat\[ROI_xyz(:,vx);1];
+            betas(c,vx) = spm_sample_vol(con_tmp,xyz_tmp(1),xyz_tmp(2),xyz_tmp(3),0);
         end
-        [maxC(c),tmp_old_ind] = max(betas(c,:));
+        [maxC(c),tmp_ind] = max(betas(c,:));
         MNIpeak(c,:) = ROI_xyz(:,tmp_old_ind);
         FileNames{c} = con_files_Words(c,:);
 
     
         %%%%save in txt file%%%%
         %fprintf(fid,'con files: \t max_beta \t MNI_peak \n');
-        fprintf(fid,'%s\t',currSubjectOld); %prints subject name
+        fprintf(fid,'%s\t',currSubject); %prints subject name
         fprintf(fid,'%d\t',maxC(c)); %prints max beta values
         fprintf(fid,'%d\t',MNIpeak(c,:)); %prints max peak values
         %fprintf(fid,'\n'); %next line (enter)
@@ -241,74 +172,6 @@ fclose(fid); %close txt file
 cd(roi_dir);
 
 
-display('FacesVsWords Old done');
+display('FacesVsWords done');
 
 
-%% FacesVsWords Rev
-
-subjectsDirRev = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/AllRead Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_rev/';
-subjectsRev = dir([subjectsDirRev,'BIO*']);% list of your participants. Same name as their folders!
-subjectsRev = [subjectsRev; dir([subjectsDirRev,'LOC*'])];
-subjectsRev = {subjectsRev.name};
-
-
-% load mask
-ROI = spm_vol(Mask_file);
-[ROI_dat,XYZ] = spm_read_vols(ROI,0);
-ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
-
-
-% create txt file
-fid = fopen([roi_dir,'/',fileWords , contrastWords '_rev.txt'],'a'); %creates txt file, if it doesn't exist yet
-
-% fprintf(fid, 'Contrast: \t');
-% fprintf(fid, '%s\n', contrastBaseline);
-fprintf(fid, 'Subjects \t max_beta \t x \t y \t z\n');
-
-
-for i = 1:length(subjectsRev)
-    currSubjectRev = subjectsRev{i};
-    CON_dirRev = fullfile(subjectsDirRev, currSubjectRev); %output path
-    
-    display(currSubjectRev);
-
-    % determine con-files
-    cd(CON_dirRev)
-
-
-    % extract betas and find max
-    betas = [];
-    for c = 1:size(con_files_Words,1)
-        display(['extracting data from file ' con_files_Words(c,:) '...']);
-    
-        con_tmp_rev = spm_vol(con_files_Words(c,:));
-        con_tmp_rev_mat = con_tmp_rev.mat;
-        for vx = 1:length(ROI_xyz)
-            xyz_tmp_rev = con_tmp_rev_mat\[ROI_xyz(:,vx);1];
-            betas(c,vx) = spm_sample_vol(con_tmp_rev,xyz_tmp_rev(1),xyz_tmp_rev(2),xyz_tmp_rev(3),0);
-        end
-        [maxC(c),tmp_rev_ind] = max(betas(c,:));
-        MNIpeak(c,:) = ROI_xyz(:,tmp_rev_ind);
-        FileNames{c} = con_files_Words(c,:);
-
-    
-        %%%%save in txt file%%%%
-        %fprintf(fid,'con files: \t max_beta \t MNI_peak \n');
-        fprintf(fid,'%s\t',currSubjectRev); %prints subject name
-        fprintf(fid,'%d\t',maxC(c)); %prints max beta values
-        fprintf(fid,'%d\t',MNIpeak(c,:)); %prints max peak values
-        %fprintf(fid,'\n'); %next line (enter)
-        %%%%saved in txt file%%%%%%
-
-    end
-    
-    fprintf(fid,'\n'); %next line (enter)
-
-end
-
-fclose(fid); %close txt file
-cd(roi_dir);
-
-
-display('FacesVsWords Rev done');
-end
