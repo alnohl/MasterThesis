@@ -37,7 +37,7 @@ subjects = {subjects.name};
 
 
 contrastBaseline = 'WordsVsBaseline'
-roi_dir = ['/Upath/to/folder/whereoutput/should/be/saved/', contrastBaseline];
+roi_dir = ['/path/to/folder/whereoutput/should/be/saved/', contrastBaseline];
 
 % load mask
 ROI = spm_vol(Mask_file);
