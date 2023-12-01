@@ -8,20 +8,17 @@ clear all;
 %% Define paths and subjects
 
 % define analysis path
-studyPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/';
-dataPathOld = '1st_level_analysis/glm_old/';
-dataPathRev = '1st_level_analysis/glm_rev/';
+studyPath = '/path/to/your/fMRI/data/analysis/folder/'; % the folder includes all files from preprocessing and first level analysis
+dataPath_group1 = '1st_level_analysis/glm_group1/';
+dataPath_group2 = '1st_level_analysis/glm_group2/';
 
 % define folder where results from 2nd level analysis (SPM files) will be stored
-stats = 'Statistical_analysis/2nd_level_analysis/Adults_t-test/';
+stats = '/2nd_level_analysis/t-test/';
 
 
 % Subjects
-subject = dir([studyPath, dataPathOld,'BIO*']); % list of your participants. Same name as their folders! 
-subject = [subject; dir([studyPath, dataPathOld,'LOC*'])]; % to add both BIO and LOC subject folders
+subject = dir([studyPath, dataPathOld,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
 subject = {subject.name}
-%subject = {'BIO2302','BIO2304','BIO2305','BIO2306','BIO2307','BIO2308','LOC01', 'LOC02', 'LOC03','LOC04','LOC05','LOC06','LOC07','LOC08','LOC09','LOC10','LOC11','LOC12'}; %use this line if you have a selection of subjects
-
 
 % count subjects
 n_subj = numel(subject);
@@ -71,12 +68,12 @@ ContDir = dir(ConDir);
 %% Specify 2nd level
 for j=1:nCons
        
-    % find con file of each subject
+    % find con file of each subject (for the two groups you want to compare)
     for i=1:length(subject)
-        file_conOld = [studyPath dataPathOld subject{i} '/' Cons{j} nii];
-        conOld(i,1)={file_conOld};
-        file_conRev = [studyPath dataPathRev subject{i} '/' Cons{j} nii];
-        conRev(i,1)={file_conRev};
+        file_con_group1 = [studyPath dataPath_group1 subject{i} '/' Cons{j} nii];
+        con_group1(i,1)={file_con_group1};
+        file_con_group2 = [studyPath dataPath_group2v subject{i} '/' Cons{j} nii];
+        con_group2(i,1)={file_con_group2};
     end
     
     % define path for this analysis
@@ -92,11 +89,9 @@ for j=1:nCons
 
     matlabbatch{1}.spm.stats.factorial_design.dir = {statsDir};
     for i=1:length(subject)
-        matlabbatch{1}.spm.stats.factorial_design.des.pt.pair(i).scans = {strcat(studyPath, dataPathOld, subject{i}, '/', Cons{j}, '.nii,1')
-                strcat(studyPath, dataPathRev, subject{i}, '/', Cons{j}, '.nii,1')};
+        matlabbatch{1}.spm.stats.factorial_design.des.pt.pair(i).scans = {strcat(studyPath, dataPath_group1, subject{i}, '/', Cons{j}, '.nii,1')
+                strcat(studyPath, dataPath_group2, subject{i}, '/', Cons{j}, '.nii,1')};
     end
-    %matlabbatch{1}.spm.stats.factorial_design.des.pt.pair(1).scans = conOld(:,1);
-    %matlabbatch{1}.spm.stats.factorial_design.des.pt.pair(2).scans = conRev(:,1);
 
     matlabbatch{1}.spm.stats.factorial_design.des.pt.gmsca = 0;
     matlabbatch{1}.spm.stats.factorial_design.des.pt.ancova = 0;
