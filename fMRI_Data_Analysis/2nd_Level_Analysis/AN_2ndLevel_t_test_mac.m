@@ -17,7 +17,7 @@ stats = '/2nd_level_analysis/t-test/';
 
 
 % Subjects
-subject = dir([studyPath, dataPathOld,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
+subject = dir([studyPath, dataPath,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
 subject = {subject.name}
 
 % count subjects
