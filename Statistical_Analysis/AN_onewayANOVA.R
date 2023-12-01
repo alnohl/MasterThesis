@@ -6,7 +6,7 @@ library(readxl)
 
 
 # Set the file path for your values of interest for one-way ANOVA
-file_path <- "/path/to/your/data/for/one-way/ANOVA/data.txt."
+file_path <- "/path/to/your/data/for/one-way/ANOVA/data.txt"
 
 # Read data from TXT files for beta values
 table <- read.table(file_path, header = TRUE) 
