@@ -5,27 +5,23 @@ clear matlabbatch;
 clear all;
 
 % define analysis path
-studyPath = '/Volumes/BrainMap$/studies/localizer/AllRead_data/Analysis_children/';
-dataPath = '1st_level_analysis/glm_both/';
+studyPath = '/path/to/your/fMRI/data/analysis/folder/'; % the folder includes all files from preprocessing and first level analysis
+dataPath = '1st_level_analysis/glm/';
 
 % define folder where results from 2nd level analysis (SPM files) will be stored
-stats = 'Statistical_analysis/Regression/2nd_level_analysis/Children/Age/';
-%stats = 'Statistical_analysis/Regression/2nd_level_analysis/Children/ELFE_pc/';
+stats = '/2nd_level_analysis/Regression/';
 
-tablepath='/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Regression/Regression Data/regression_data.xlsx';
-sheetname='Age';
-%sheetname='SLRT';
+tablepath='/path/to/your/excel/sheet/with/values/for/regression/data.xlsx'; % e.g., age, reading ability, etc.
+sheetname='reading_ability';
 
 column_subj='Subjects';
-column_behavior='Age';
-%column_behavior='ELFE_pc';
+column_behavior='mean_reading_ability';
 
 % careful! This uses all subjects that are in the sheet of the Excel file!
 T=readtable(tablepath,'Sheet',sheetname); 
 subject=(T.(column_subj))'; %gets subjects from column "VP"
 behavioral_value=[T.(column_behavior)]'; %gets behavioral value of column you put in line 17
-behavioral_name='Age'; %adapt name if you change behavioral test you are correlating with
-%behavioral_name='ELFE_pc'; %adapt name if you change behavioral test you are correlating with
+behavioral_name='mean_reading_ability'; %adapt name if you change behavioral test you are correlating with
 
 
 % count subjects
@@ -36,24 +32,24 @@ n_subj = numel(subject);
 % the following lines do only work up to 99 contrasts
 
 n_cons = 4; %% ADJUST manually!!!! max. 99
-% number_ess = '01';
+% number_ess = '01'; % only cons used, not ess
 
-
-% ['01 EOI']
-% ['02 words vs faces']
-% ['03 faces vs words']
-% ['04 words vs baseline']
-% ['05 faces vs baseline']
+% Overview of our contrasts:
+       % ['01 EOI'] % not used (is ess, not con)
+       % ['02 words vs faces']
+       % ['03 faces vs words']
+       % ['04 words vs baseline']
+       % ['05 faces vs baseline']
 
 
 % make a list of strings from con_0001 until con_0005
-Cons = strcat({'con_000'},int2str((2:5).')).';
+Cons = strcat({'con_000'},int2str((2:5).')).'; %con_0001 did not exist
 
 % make a list of strings for F-contrasts
-%Cons_F = strcat({'ess_00'},number_ess).';
+%Cons_F = strcat({'ess_00'},number_ess).'; % we did not use F-contrasts
 
 % combine lists from above (if you have F-contrasts)
-%Cons = [Cons Cons_F];
+%Cons = [Cons Cons_F]; % we did not use F-contrasts
 
 % count contrasts
 nCons = numel(Cons);
@@ -137,8 +133,6 @@ for j=1:nFolder
 
     % run the batch
     spm_jobman('run', matlabbatch(j));
-    
-    % spm_jobman('interactive', matlabbatch(j));
 
 end
 
@@ -166,8 +160,6 @@ for j=1:nFolder
     
     % run the batch
     spm_jobman('run', matlabbatch(j));
-    
-    % spm_jobman('interactive', matlabbatch(j));
 
 end
 
