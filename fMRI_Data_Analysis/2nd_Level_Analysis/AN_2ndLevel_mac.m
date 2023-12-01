@@ -6,23 +6,19 @@ clear all;
 
 
 % define path to data
-studyPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/';
+studyPath = '/path/to/your/fMRI/data/analysis/folder/'; % the folder includes all files from preprocessing and first level analysis
 
-%dataPath = '1st_Level_Analysis/glm_old/';
-dataPath = '1st_Level_Analysis/glm_rev/';
+dataPath = '1st_Level_Analysis/glm/';
 
 % define folder where results from 2nd level analysis (SPM files) will be stored
-%stats = '2nd_Level_Analysis/localizer_old/';
-stats = '2nd_level_analysis/localizer_rev/';
+stats = '2nd_level_analysis/localizer/'; 
 
 %path_mask = 'K:\FS2023\data\analyses\mask_ICV.nii'; % use default mask
 
-%preprocessingDir = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_old/'
-preprocessingDir = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm_rev/'
-subject = dir([preprocessingDir,'BIO*']); % list of your participants. Same name as their folders! 
-subject = [subject; dir([preprocessingDir,'LOC*'])]; % to add both LOC and BIO subject folders
+
+preprocessingDir = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/glm/'
+subject = dir([preprocessingDir,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
 subject = {subject.name}
-%subject = {'BIO2302','BIO2304','BIO2305','BIO2306','BIO2307','BIO2308','LOC01', 'LOC02', 'LOC03','LOC04','LOC05','LOC06','LOC07','LOC08','LOC09','LOC10','LOC11','LOC12'}; %use this line if you have a selection of subjects
 
 %% get your contrast files
 d=dir([studyPath dataPath subject{1}]);
@@ -77,8 +73,8 @@ for j=1:nCons
     matlabbatch{j}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
     matlabbatch{j}.spm.stats.factorial_design.masking.tm.tm_none = 1;
     matlabbatch{j}.spm.stats.factorial_design.masking.im = 1;
-    %matlabbatch{j}.spm.stats.factorial_design.masking.em = {path_mask};
-    matlabbatch{1}.spm.stats.factorial_design.masking.em = {''}; % use default mask
+    %matlabbatch{j}.spm.stats.factorial_design.masking.em = {path_mask}; % used default mask
+    matlabbatch{1}.spm.stats.factorial_design.masking.em = {''}; 
     matlabbatch{j}.spm.stats.factorial_design.globalc.g_omit = 1;
     matlabbatch{j}.spm.stats.factorial_design.globalm.gmsca.gmsca_no = 1;
     matlabbatch{j}.spm.stats.factorial_design.globalm.glonorm = 1;
@@ -116,7 +112,6 @@ for j=1:nFolder
     % run the batch
     spm_jobman('run', matlabbatch(j));
     
-    % spm_jobman('interactive', matlabbatch(j));
 
 end
 
@@ -140,7 +135,5 @@ for j=1:nFolder
         
     % run the batch
     spm_jobman('run', matlabbatch(j));
-    
-    % spm_jobman('interactive', matlabbatch(j));
 
 end
