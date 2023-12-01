@@ -14,26 +14,21 @@
 %--------------------------------------------------------------------------
 % Clear up  workspace, load spm config file and add  path to our scripts
 clear all; close all; 
-%addpath C:\Users\alnohl\MRI_data_analysis\spm12 % add SMP12 (open with spm fmri)
 spm_jobman('initcfg');
-addpath ('/Users/alexandranohl/Desktop/Preprocessing_adults/Scripts') 
+addpath ('/path/to/your/scripts') 
 
 % Inputs setup
 %-----------------------------------------------------------------
-%preprocessingDir = '/Users/alexandranohl/Desktop/Preprocessing_adults/Localizer_old/epis/'
-%preprocessingDir = '/Users/alexandranohl/Desktop/Preprocessing_adults/Localizer_rev/epis/'
-%subjects = dir([preprocessingDir,'LOC*']); % list of your participants. Same name as their folders! 
-%subjects = [subjects; dir(dir([preprocessingDir,'BIO*']);)]; % to add both LOC and BIO subject folders
-%subjects = {subjects.name}
-
-subjects = {'LOC03','LOC04','LOC05','LOC06','LOC07','LOC08','LOC09','LOC10','LOC11','LOC12'}
+preprocessingDir = '/path/to/your/fMRI/data/for/preprocessing/epis/' % the epis folder contains the functional data
+subjects = dir([preprocessingDir,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
+subjects = {subjects.name}
 
 % If working in paralel, only process as many subjects as cores specified in parpool(Line 57) at a time! 
-%currTask =  'Localizer_old'; % task name (same name is its main folder). 'curr' is for current!
-currTask =  'Localizer_rev'; % task name (same name is its main folder). 'curr' is for current!
-anatTemplate = '/Users/alexandranohl/Desktop/Preprocessing_adults/Scripts/TPM.nii'; % fullfilename of our anatomical template
+currTask =  'Localizer'; % task name (same name is its main folder). 'curr' is for current!
+anatTemplate = '/path/to/your/anatomical/template/TPM.nii'; % fullfilename of our anatomical template (here called "TPM.nii")
+
 %Specify our main PATH (end character should be / )
-paths.preprocessing = '/Users/alexandranohl/Desktop/Preprocessing_adults/';% you should have mapped our server share to a drive named "O" 
+paths.preprocessing = '/path/to/your/prerocessing/folder/';
 
 %% BEGIN SUBJECT LOOP  
 %-----------------------------------------------------------------
