@@ -5,48 +5,34 @@
 clear all
 
 %% Paths and Participants
-dataPath = '/Volumes/BrainMap$/studies/localizer/AllRead_data/Analysis_children/1st_level_analysis/glm_both/';
+dataPath = '/path/to/your/first/level/folder/glm/';
 
 
-batchPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Size/Scripts';
-%maskPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Masks/ROI_Masks_WFU_Pickatlas_left';
-%maskPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Masks/ROI_Masks_WFU_Pickatlas_right';
-%maskPath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Masks/ROI_Masks_visfAtlas';
-maskPath = '/Users/alexandranohl/Desktop';
+batchPath = '/path/to/your/voxel/extraction/scripts';
+maskPath = '/path/to/your/mask/';
 
 
-%mask = 'mask_OTC_left.nii'; % Mask huge OTC left hemisphere
-mask = 'mask_OTC_right.nii'; % Mask huge OTC right hemisphere
+mask = 'mask_name.nii'; % enter your mask name here
 
-%mask = '19_rh_pFus_faces.nii'; % Mask small FFA-1 right hemisphere
-%mask = '19_mirrored_lh_pFus_faces.nii'; % Mask small FFA-1 left hemisphere
+filePath = '/path/to/your/folder/to/save/output';
 
 
-%filePath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Size/Voxel Extraction visfAtlas';
-filePath = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_children/Statistical_analysis/Size/Voxel Extraction WFU Pickatlas';
-
-
-% Participants Both
-Participants = dir([dataPath,'AR*']); % list of your participants. Same name as their folders! 
-Participants = [Participants; dir([dataPath,'CBC*'])]; % to add both AR and CBC subject folders
+% Participants
+Participants = dir([dataPath,'sub-*']); % list of your participants (sub-...). Same name as their folders! 
 Participants = {Participants.name}
-%Participants = {'AR1004'}
 
 
-% Threshold for beta values
-threshold = 2.5; % T-value
-
+% Threshold for t-values
+threshold = 2.5; % t-value
 
 
 % create txt file
-%fid = fopen([filePath,'/' 'VoxelExtraction_FFA_mask_OTC_left.txt'],'a'); %creates txt file, if it doesn't exist yet
-fid = fopen([filePath,'/' 'VoxelExtraction_FFA_mask_OTC_right.txt'],'a'); %creates txt file, if it doesn't exist yet
+fid = fopen([filePath,'/' 'name_of_output_file.txt'],'a'); %creates txt file, if it doesn't exist yet
 fprintf(fid, 'Subjects \t FacesVsBaseline \t FacesVsWords \n');
 
 
 
-%% Voxel Extraction Both
-
+%% Voxel Extraction
 
 % save number of beta values above threshold
 num_above_thresh_Baseline = zeros(length(Participants), 1);
