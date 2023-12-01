@@ -6,22 +6,16 @@ library(readxl)
 library(BayesFactor)
 library(Matrix)
 library(coda)
-#library(dplyr)
 
 
-# Set the file path for the beta values
-file_path_beta_values <- "/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Statistical_analysis/ROI/Activity/Activity_visfAtlas/beta_Values_visfAtlas.txt"
+# Set the file path for your values of interest to calculate bayes factor
+file_path <- "/path/to/your/data/to/calculate/bayes/factor/data.txt"
 
 
 # Read data from TXT files for beta values
-beta <- read.table(file_path_beta_values, header = TRUE)
+table <- read.table(file_path, header = TRUE)
 
 
 ## Bayes Factor (BF)
-
-lmBF(WordsVsBaseline ~ group, data = beta, progress=FALSE)
-lmBF(WordsVsFaces ~ group, data = beta, progress=FALSE)
-lmBF(FacesVsBaseline ~ group, data = beta, progress=FALSE)
-lmBF(FacesVsWords ~ group, data = beta, progress=FALSE)
-
+lmBF(value_of_interest ~ group, data = table, progress=FALSE) # calculate bayes factor for value_of_interest (e.g., reading ability, beta value, etc.) between group (at least 2 groups; e.g., typical readers and poor readers, etc.)
 
