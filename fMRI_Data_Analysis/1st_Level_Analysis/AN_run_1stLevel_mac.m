@@ -12,17 +12,14 @@
 
 clear all
 close all
-addpath ('/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_Level_Analysis/Scripts');% set path to this script and associated functions
+addpath ('/path/to/your/first/level/scripts');% set path to this script and associated functions
 
 
 %% Set up directories and some variables  (last character is NOT '/')
 
-%paths.mri = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_old';
-paths.mri = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_rev';
-%paths.logs = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Logfiles/Logfiles_old'; % log files from stimuli computer (used to read onsets)
-paths.logs = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Logfiles/Logfiles_rev'; % log files from stimuli computer (used to read onsets)
-%paths.analysis =  '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_level_analysis/glm_old'; 
-paths.analysis =  '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/1st_level_analysis/glm_rev';
+paths.mri = '/path/to/your/preprocessing/files';
+paths.logs = '/path/to/your/logfiles'; % log files from stimuli computer (used to read onsets)
+paths.analysis =  '/path/to/your/fisrt/level/glm/folder/glm';
 
 
 nscans = 168; %  n volumes 
@@ -31,14 +28,10 @@ mask_threshold = 0.2;
 
 % find subjects from our epi dir
 
-files = dir([paths.mri,'/epis/*']);
-%preprocessingDir = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_old/epis/'
-preprocessingDir = '/Users/alexandranohl/Documents/MSc IDB/Master thesis/Projects/Localizer/MRI Data Analysis/Analysis_adults/Preprocessing/Localizer_rev/epis/'
-subjects = dir([preprocessingDir,'BIO*']);% list of your participants. Same name as their folders!
-%subjects = [subjects; dir([preprocessingDir,'LOC*'])]; % to add both LOC and BIO subject folders
-%subjects = {subjects.name}
-subjects = {'BIO2302'}
-
+files = dir([paths.mri,'/epis/*']); % the epis folder contains the functional data from preprocessing
+preprocessingDir = '/path/to/your/preprocessing/files/epis/'
+subjects = dir([preprocessingDir,'sub-*']);% list of your participants (sub-...). Same name as their folders!
+subjects = {subjects.name}
 
 
 %% BEGIN SUBJECT LOOP
@@ -163,7 +156,7 @@ for i = 1:length(subjects)
     %% ANALYSIS
 
     % Create 1st level batch 
-    matlabbatch = AN_create_1Lv_GLM1_mac(regr,pathSubject,subjectPath,subjects,scans,onsets,rpfile,mask_threshold);
+    matlabbatch = AN_create_1stLevel_glm_mac(regr,pathSubject,subjectPath,subjects,scans,onsets,rpfile,mask_threshold);
 
     % Run the batch for this subject
     disp(['_m_d[^_^]b_m Start running 1st Level for ',currSubject,'...'])
