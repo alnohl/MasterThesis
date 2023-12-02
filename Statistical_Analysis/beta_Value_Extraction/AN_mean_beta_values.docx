@@ -1,0 +1,18 @@
+## Extract mean beta values
+
+For this code, you need MATLAB, the toolbox SPM12, as well as the toolbox xjView. Additionally, you need to have a mask for your ROI (or know the coordinates of your ROI to create a spherical mask)
+
+1. Open Matlab
+2. Write in the command window: myxjViewBrowser
+3. Click on “load” on the top right corner of the appearing window
+4. Select the second level data you want to analyze
+5. Select one of the files in the most right column (doesn’t matter which)
+6. Skip this step if you use a mask (and therefore don't need to create a spherical mask)! Put in the coordinates of your ROI in the new appearing window (lower left corner)
+7. Go back to the other window
+8. Select “showBetaAllCondVOI_2015” (in the field next to “load”)
+9. Skip this step if you use a mask (and therefore don't need to create a spherical mask)!Select “Sphere” with coordinates of the ROI radius 6/8mm
+10. Select “..” and then choose your mask
+
+The results (beta-values) will now be copied in the Zwischenablage. Open a new excel file and paste the data.
+
+WARNING: the data will not contain the information of the participants. The order of the participants will be the same as you read them in the script.
