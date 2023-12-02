@@ -14,4 +14,4 @@ fMRI is analysed in the following sequence:
 4. 2nd level analysis (includes whole-brain t-test and regression)
 
 
-MATLAB and the toolbox SPM are needed for all fMRI data analyses.
+MATLAB and the toolbox SPM12 are needed for all fMRI data analyses.
