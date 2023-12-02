@@ -2,6 +2,7 @@
 ## Brain activation during word and face processing
 *1st of December 2023*
 
+
 All scripts and codes used for fMRI data analyses and statistical analyses for my Master Thesis "Brain activation during word and face processing".
 
 
