@@ -5,15 +5,18 @@
 
 All scripts and codes used for fMRI data analyses, ROI analyses and statistical analyses for my Master Thesis "Brain activation during word and face processing".
 
+<br/>
 ### fMRI Data Analysis
 In "fMRI_Data_Analysis" you can find the scripts used for preprocessing, quality check, and 1st and 2nd level analysis of the fMRI data.
 
+<br/>
 ### ROI Analysis
 In "ROI_Analysis" are the scripts used for further calculations from the files computed in 1st and 2nd level processing. The following analyses are included:
 - Peak coordinates to find coordinates of voxel with highest beta activity
 - Voxel Extraction (above a certain t-value threshold) to determine the size of activation
 - beta value extraction to calculate the mean beta value in a region of interest
 
+<br/>
 ### Statistical Analysis
 In "Statistical_Analysis" you can find the codes used for statistical tests and further analysis of the fMRI data. The following analyses are included:
 - t-test and Wilcoxon test to compare mean values between two groups
@@ -21,7 +24,7 @@ In "Statistical_Analysis" you can find the codes used for statistical tests and 
 - Bayes factor (used to determine if there really is no difference between two groups after no significant difference was found with t-test or ANOVA)
 - correlation analysis (Pearson and Kendall correlation)
 
-
+<br/><br/>
 ## List of which scripts were used for which hypothesis of my master thesis:
 Only scripts besides preprocessing, quality check and 1st level analysis are listed
 
