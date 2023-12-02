@@ -11,6 +11,7 @@ All scripts and codes used for fMRI data analyses, ROI analyses and statistical 
 In "fMRI_Data_Analysis" you can find the scripts used for preprocessing, quality check, and 1st and 2nd level analysis of the fMRI data.
 
 <br/>
+
 ### ROI Analysis
 In "ROI_Analysis" are the scripts used for further calculations from the files computed in 1st and 2nd level processing. The following analyses are included:
 - Peak coordinates to find coordinates of voxel with highest beta activity
@@ -18,6 +19,7 @@ In "ROI_Analysis" are the scripts used for further calculations from the files c
 - beta value extraction to calculate the mean beta value in a region of interest
 
 <br/>
+
 ### Statistical Analysis
 In "Statistical_Analysis" you can find the codes used for statistical tests and further analysis of the fMRI data. The following analyses are included:
 - t-test and Wilcoxon test to compare mean values between two groups
@@ -26,6 +28,7 @@ In "Statistical_Analysis" you can find the codes used for statistical tests and 
 - correlation analysis (Pearson and Kendall correlation)
 
 <br/><br/>
+
 ## List of which scripts were used for which hypothesis of my master thesis:
 Only scripts besides preprocessing, quality check and 1st level analysis are listed
 
