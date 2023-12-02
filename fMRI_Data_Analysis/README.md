@@ -7,7 +7,7 @@ In this MRI study, structural and functional MRI data was acquired, B0 files abo
 - logfiles: includes the logfiles of all participants
 
 In all three folders is a separate folder for each participant (named sub-..., with ... being the participant number)
-\
+\\
 
 ### fMRI is analysed in the following sequence:
 1. Preprocessing
