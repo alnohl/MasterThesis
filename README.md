@@ -34,6 +34,7 @@ Only scripts besides preprocessing, quality check and 1st level analysis are lis
 
 ### Aim 1
 H1.1:
+- "ROI_Analysis > beta_Value_Extraction"
 - "Statistical_Analysis > AN_onewayANOVA.R"
 - "Statistical_Analysis > AN_Bayes_Factor.R"
 
@@ -43,6 +44,7 @@ H2.1:
 - "AN_correlation_coefficient.R"
 
 H2.2:
+- "ROI_Analysis > beta_Value_Extraction"
 - "Statistical_Analysis > AN_t-test.R"
 
 H2.3:
