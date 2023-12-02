@@ -46,7 +46,7 @@ ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
 
 
 % create txt file
-fid = fopen([roi_dir,'/', fileWords , contrastBaseline '.txt'],'a'); %creates txt file, if it doesn't exist yet
+fid = fopen([roi_dir,'/', file , contrastBaseline '.txt'],'a'); %creates txt file, if it doesn't exist yet
 
 % fprintf(fid, 'Contrast: \t');
 % fprintf(fid, '%s\n', contrastBaseline);
@@ -119,7 +119,7 @@ ROI_xyz = XYZ(:,find(ROI_dat > 0));    % mm space
 
 
 % create txt file
-fid = fopen([roi_dir,'/', fileWords , contrastFaces '.txt'],'a'); %creates txt file, if it doesn't exist yet
+fid = fopen([roi_dir,'/', file , contrastFaces '.txt'],'a'); %creates txt file, if it doesn't exist yet
 
 % fprintf(fid, 'Contrast: \t');
 % fprintf(fid, '%s\n', contrastBaseline);
