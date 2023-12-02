@@ -6,3 +6,4 @@ The scripts "AN_Bayes_Factor.R", "AN_correlation_coefficient.R", "AN_onewayANOVA
 - "AN_correlation_coefficient.R" can be used for correlation analysis, calculating either the Pearson or Kendall correlation coefficient (depending if the data is distributed normally or not).
 - "AN_t-test.R" can perform a t-test or a Wilcoxon test (also depending if the data is distributed normally or not).
 
+In all scripts, change the paths to your data you want to analyse. Add the names of the values of your interest. If necessary, enter the different groups you want to compare.
