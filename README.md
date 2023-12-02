@@ -6,6 +6,7 @@
 All scripts and codes used for fMRI data analyses, ROI analyses and statistical analyses for my Master Thesis "Brain activation during word and face processing".
 
 <br/>
+
 ### fMRI Data Analysis
 In "fMRI_Data_Analysis" you can find the scripts used for preprocessing, quality check, and 1st and 2nd level analysis of the fMRI data.
 
