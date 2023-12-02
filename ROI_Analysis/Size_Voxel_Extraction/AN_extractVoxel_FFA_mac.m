@@ -47,7 +47,7 @@ for n = 1:length(Participants)
     subjDir = [dataPath p];
     
     % get contrast image WordsVsBaseline
-    contrast = spm_select('FPList', subjDir, 'spmT_0005.nii'); %con_0002 for WordsVsBaseline
+    contrast = spm_select('FPList', subjDir, 'spmT_0005.nii'); %con_0002 for FacesVsBaseline
     cd(batchPath);
     
     % extract beta values within mask for contrast WordsVsBaseline
@@ -59,7 +59,7 @@ for n = 1:length(Participants)
     
 
     % get contrast image WordsVsFaces
-    contrast = spm_select('FPList', subjDir, 'spmT_0003.nii'); %con_0002 for WordsVsFaces
+    contrast = spm_select('FPList', subjDir, 'spmT_0003.nii'); %con_0002 for FacesVsWords
     cd(batchPath);
 
     % extract beta values within mask for contrast WordsVsFaces
@@ -78,8 +78,8 @@ for n = 1:length(Participants)
 
     % save number of beta values above threshold for current participant
     fprintf(fid, '%s\t', Participants{n}); %prints subject name
-    fprintf(fid, '%d\t', num_above_thresh_Baseline(n)); %prints max beta values WordsVsBaseline
-    fprintf(fid, '%d\t', num_above_thresh_Words(n)); %prints max beta values WordsVsFaces
+    fprintf(fid, '%d\t', num_above_thresh_Baseline(n)); %prints max beta values FacesVsBaseline
+    fprintf(fid, '%d\t', num_above_thresh_Words(n)); %prints max beta values FacesVsWords
 
     fprintf(fid,'\n'); %next line (enter)
 
