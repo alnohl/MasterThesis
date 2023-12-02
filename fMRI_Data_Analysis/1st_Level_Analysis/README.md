@@ -1,3 +1,5 @@
+### 1st Level Analysis
+
 Save both 1st level scripts in the same folder.
 
 Change the paths in the script "AN_run_1stLevel_mac.m" and change the number of scans in line 25 (if necessary). Also change the names and onset numbers of the onsets in lines 62-70.
