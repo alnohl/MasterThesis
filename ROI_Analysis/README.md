@@ -1,1 +1,1 @@
-readme
+The scripts in the folders "Size_Voxel_Extraction" and "beta_Value_Extraction" require MATLAB and the toolbox SPM12. "Size_Voxel_Extraction" results in the size of activation of the ROI (counting each voxel above a certain threshold).
